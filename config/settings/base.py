@@ -53,14 +53,16 @@ DEFAULT_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-LOCAL_APPS = [
 
+LOCAL_APPS = [
+    'apps.core',
+    'apps.user',
+    'apps.book',
 ]
 THIRD_PARTY_APPS = [
     "corsheaders",
     'rest_framework',
     "rest_framework.authtoken",
-
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
