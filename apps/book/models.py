@@ -10,7 +10,7 @@ class Book(TimeStampedBaseModel, AuditModel):
                                verbose_name=_("Author"), on_delete=models.RESTRICT, db_index=True
                                )
     title = models.CharField(max_length=500, verbose_name=_("Book Title"), db_index=True)
-    isbn = models.CharField(max_length=13, verbose_name=_("International Standard Book Number"), unique=True,
+    isbn = models.CharField(max_length=18, verbose_name=_("International Standard Book Number"), unique=True,
                             db_index=True)
     publication_year = models.PositiveSmallIntegerField(verbose_name=_("Publication Year"), db_index=True,
                                                         validators=[MinValueValidator(1000),

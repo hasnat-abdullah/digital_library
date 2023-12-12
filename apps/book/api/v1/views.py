@@ -13,12 +13,14 @@ class BookViewSet(CustomModelViewSet):
     lookup_field = "pk"
     filter_class = BookFilter
     search_fields = ("title",)
-    permission_classes = [permissions.IsAuthenticated,]
-    permission_classes_by_action = {"create": [IsBookOwner],
-                                    "update": [IsBookOwner],
-                                    "partial_update": [IsBookOwner],
-                                    "destroy": [IsBookOwner]
-                                    }
+    permission_classes = [permissions.IsAuthenticated, ]
+    permission_classes_by_action = {
+        "list": [permissions.AllowAny],
+        "detail": [permissions.AllowAny],
+        "create": [IsBookOwner],
+        "partial_update": [IsBookOwner],
+        "destroy": [IsBookOwner]
+    }
     ordering_fields = (
         "title",
         "isbn",
