@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the Django backend for a full-stack digital library management system. The backend serves as a RESTful API, handling data operations for book records. The system includes a PostgreSQL database for storing book records and implements full-text search functionality using Django Haystack and Elasticsearch.
+This repository contains the Django backend for a full-stack digital library management system. The backend serves as a RESTful API, handling data operations for book records. The system includes a PostgreSQL database for storing book records.
 
 ## Technical Stack
 

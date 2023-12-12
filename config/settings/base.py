@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 import environ
 
@@ -56,13 +57,16 @@ DEFAULT_APPS = [
 
 LOCAL_APPS = [
     'apps.core',
+    'apps.authentication',
     'apps.user',
     'apps.book',
 ]
 THIRD_PARTY_APPS = [
     "corsheaders",
     'rest_framework',
-    "rest_framework.authtoken",
+    'rest_framework_simplejwt',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',  # required for Django collectstatic discovery
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -157,3 +161,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = "user.User"
