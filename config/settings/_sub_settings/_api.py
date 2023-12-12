@@ -16,8 +16,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FileUploadParser',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication'
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -36,7 +35,7 @@ REST_FRAMEWORK = {
     ],
 
     # Schema
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
     # Throttling
     'DEFAULT_THROTTLE_RATES': {
@@ -66,7 +65,7 @@ REST_FRAMEWORK = {
     'VIEW_DESCRIPTION_FUNCTION': 'rest_framework.views.get_view_description',
 
     # Exception handling
-    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
+    'EXCEPTION_HANDLER': 'apps.core.exceptions.exception_handler.custom_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'non_field_errors',
 
     # Testing
@@ -108,4 +107,16 @@ REST_FRAMEWORK = {
         'retrieve': 'read',
         'destroy': 'delete'
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Digital Library Management System',
+    'DESCRIPTION': 'This repository contains the Django backend for a full-stack digital library management system. '
+                   'The backend serves as a RESTful API, handling data operations for book records. The system includes'
+                   ' a PostgreSQL database for storing book records.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
 }
