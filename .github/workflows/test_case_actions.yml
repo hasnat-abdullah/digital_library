@@ -1,59 +1,42 @@
-name: Run Test Case
+name: Django CI
 
 on:
   push:
-    branches: [ "development", "staging", "production" ]
+    branches: [ "development" ]
   pull_request:
-    branches: [ "development", "staging", "production" ]
+    branches: [ "development" ]
 
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
-
-    env:
-      DB_USERNAME: ${{ secrets.POSTGRES_USER }}
-      DB_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      DB_HOST: ${{ secrets.POSTGRES_HOST }}
-      DB_DATABASE: ${{ secrets.POSTGRES_DB }}
-      DB_PORT: ${{ secrets.POSTGRES_PORT }}
-      ENV_NAME: ${{ secrets.ENV_NAME }}
-      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-      DEBUG: ${{ secrets.DEBUG }}
-      LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.12]
 
     services:
-      postgres_main:
-        image: postgres:12
+      db:
+        image: postgis/postgis
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 5
-
-    strategy:
-      matrix:
-        python-version: ["3.12"] # ["3.8", "3.9", "3.10"]
+          POSTGRES_DB: library
+          POSTGRES_USER: hasnat
+          POSTGRES_PASSWORD: hasnat
 
     steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Create .env file from example.env
+      run: |
+          cp example.env .env
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install requirements
-        run: |
-          pip install -r requirements.txt
-      - name: Run Tests
-        run: |
-          python manage.py test
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: |
+        python manage.py test
