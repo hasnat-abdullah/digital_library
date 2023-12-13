@@ -16,21 +16,20 @@ jobs:
         python-version: [3.12]
 
     services:
-      db:
-        image: postgres:14.2-alpine
+      postgres:
+        image: postgres
         env:
           POSTGRES_DB: library
           POSTGRES_USER: hasnat
           POSTGRES_PASSWORD: hasnat
           POSTGRES_PORT: 5432
-          # Set health checks to wait until postgres has started
           options: >-
             --health-cmd pg_isready
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5
-          ports:
-            -5432:5432
+        ports:
+          - 5432:5432
 
     steps:
     - uses: actions/checkout@v3
@@ -39,13 +38,19 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Create .env file from example.env
-      run: |
-          cp example.env .env
+      run: cp example.env .env
+
+    - name: Wait for PostgreSQL to start
+      run: sleep 10
 
     - name: Install Dependencies
       run: |
         python3 -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Print PostgreSQL Container Logs
+      run: docker logs ${{ job.services.postgres.id }}
+
     - name: Run Tests
       run: |
         python3 manage.py test
