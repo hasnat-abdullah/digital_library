@@ -16,7 +16,7 @@ class BookViewSet(CustomModelViewSet):
     permission_classes = [permissions.IsAuthenticated, ]
     permission_classes_by_action = {
         "list": [permissions.AllowAny],
-        "detail": [permissions.AllowAny],
+        "retrieve": [permissions.AllowAny],
         "create": [IsBookOwner],
         "partial_update": [IsBookOwner],
         "destroy": [IsBookOwner]
@@ -27,13 +27,6 @@ class BookViewSet(CustomModelViewSet):
         "publication_year",
     )
     http_method_names = ["get", "post", "patch", 'delete']
-
-    # def get_permissions(self):
-    #     if self.action == 'list':
-    #         permission_classes = [permissions.IsAuthenticated]
-    #     else:
-    #         permission_classes = [IsBookOwner]
-    #     return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
