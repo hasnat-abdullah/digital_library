@@ -75,6 +75,14 @@ This repository contains the Django backend for a full-stack digital library man
    docker run -p 8000:8000 -d digital-library-backend
    ```
 
+## Seed Database with fake data
+
+1. **Run the Django Shell:**
+   ```bash
+   # seed db
+   python manage.py seed_db
+   ```
+
 ## CI/CD Pipeline
 
 The CI/CD pipeline is set up using GitHub Actions. Check the `.github/workflows` directory for the workflow configuration.

@@ -22,7 +22,7 @@ try:
     from ._sub_settings._jwt import *
     from ._sub_settings._api import *
     from ._sub_settings._security import *
-    from ._sub_settings._logger import *
+    # from ._sub_settings._logger import *
 except Exception as ex:
     import sys
 
