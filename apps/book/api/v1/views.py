@@ -11,7 +11,7 @@ class BookViewSet(CustomModelViewSet):
     serializer_classes_by_action = {"list": BookListSerializer}
     queryset = serializer_class.Meta.model.objects.all().order_by("title")
     lookup_field = "pk"
-    filter_class = BookFilter
+    filterset_class = BookFilter
     search_fields = ("title",)
     permission_classes = [permissions.IsAuthenticated, ]
     permission_classes_by_action = {
