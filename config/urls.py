@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import path
+from django.urls import path, include
+
+from config.swagger_config import swagger_api_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", lambda req: HttpResponse("Welcome to Digital Library API!"), name='api_home'),
+    path("", include("apps.core.urls", namespace="core")),
     path("health_check/", lambda req: HttpResponse("Success")),  # alb-health check status; url for devops.
-]
+] + swagger_api_urlpatterns()
